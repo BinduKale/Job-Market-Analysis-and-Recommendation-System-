@@ -1,0 +1,10 @@
+services:
+  shortlist:
+    build: .
+    ports: ["5000:5000"]
+    volumes: ["./data:/app/data"]        # raw/ = base data, incoming/ = new monthly files, state/ = update log
+    environment:
+      AUTO_REFRESH: "1"                  # 0 = manual updates only
+      CHECK_SECS: "3600"                 # how often to look for new files / a new month
+      SOURCE_URL: ""                     # optional CSV URL fetched at each monthly rebuild
+    restart: unless-stopped

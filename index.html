@@ -1,0 +1,115 @@
+<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shortlist — job matches &amp; market pulse</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f4efe6;--card:#fffdf8;--ink:#17140f;--mut:#6f675a;--line:#d9d0c0;--acc:#e8431f;--teal:#0e7c7b;--gold:#c98a0a;--ok:#16794c;--bad:#b3261e;--r:14px}
+[data-theme=dark]{--bg:#12100d;--card:#1b1814;--ink:#f3ece0;--mut:#a69d8c;--line:#352f26;--acc:#ff6a43;--teal:#37c2bf;--gold:#f0b84a;--ok:#4cd08e;--bad:#ff7b72}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "DM Sans",system-ui,sans-serif}
+h1,h2,h3,.serif{font-family:Fraunces,Georgia,serif;font-weight:700;margin:0}[hidden]{display:none!important}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}.mut{color:var(--mut)}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:28px;height:64px}.brand{font:700 28px Fraunces,serif;letter-spacing:-.02em}.brand i{color:var(--acc);font-style:normal}
+nav{display:flex;gap:4px;flex:1}.tab{background:none;border:0;padding:8px 16px;border-radius:99px;font:inherit;font-weight:500;color:var(--mut);cursor:pointer}.tab.on{background:var(--ink);color:var(--bg)}
+.right{display:flex;align-items:center;gap:12px}.pill{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}.dot.busy{background:var(--gold);animation:p .8s infinite alternate}@keyframes p{to{opacity:.25}}
+.ib{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:15px}.ib:hover{border-color:var(--acc)}
+#rec{display:grid;grid-template-columns:340px 1fr;gap:32px;padding-top:28px;padding-bottom:60px}
+.panel{position:sticky;top:88px;align-self:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:7px}.panel h2{font-size:22px;margin-bottom:4px}
+label{font-weight:500;font-size:13px;margin-top:8px;display:flex;justify-content:space-between}label small{color:var(--mut);font-weight:400}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}input:focus,select:focus{outline:2px solid var(--acc);outline-offset:1px}input[type=range]{padding:0;accent-color:var(--acc)}
+.chipbox{display:flex;flex-wrap:wrap;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px}.chipbox input{border:0;background:none;flex:1;min-width:90px;padding:4px 6px}.chipbox input:focus{outline:0}
+.chip{background:var(--ink);color:var(--bg);border-radius:99px;padding:3px 10px;font-size:13px;cursor:pointer}.chip:hover{background:var(--acc)}
+.sugg{display:flex;flex-wrap:wrap;gap:6px}.sugg button{border:1px dashed var(--line);background:none;color:var(--mut);border-radius:99px;padding:2px 10px;font:inherit;font-size:12px;cursor:pointer}.sugg button:hover{border-color:var(--acc);color:var(--acc)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px}.seg button{border:0;background:none;padding:7px;border-radius:8px;font:inherit;cursor:pointer;color:var(--mut)}.seg .on{background:var(--ink);color:var(--bg)}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:12px;padding:13px;font:inherit;font-weight:700;cursor:pointer;margin-top:10px;transition:transform .15s}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.5}.btn.sm{padding:9px 16px;margin:0;white-space:nowrap}
+.ghost{background:none;border:0;color:var(--mut);cursor:pointer;font:inherit}.ghost:hover{color:var(--acc)}
+.head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.head h2{font-size:32px;letter-spacing:-.01em}.head select{width:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+article.card{display:grid;grid-template-columns:64px 1fr;gap:14px;animation:in .4s both;transition:border-color .2s,transform .2s}article.card:hover{border-color:var(--acc);transform:translateY(-2px)}@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.ring{width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--acc) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;position:relative}.ring:before{content:"";position:absolute;inset:6px;background:var(--card);border-radius:50%}.ring b{position:relative;font:700 19px Fraunces,serif}
+article h3{font:700 16px/1.3 "DM Sans",sans-serif;margin-bottom:2px}.meta{font-size:13px;color:var(--mut);margin:0 0 8px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.tag,.pay{font-size:12px;border-radius:99px;padding:2px 10px;border:1px solid var(--line)}.pay{font-weight:700}.pay.hourly{background:color-mix(in srgb,var(--teal) 16%,transparent);color:var(--teal);border-color:transparent}.pay.fixed{background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--gold);border-color:transparent}
+.acts{grid-column:2;display:flex;gap:6px;margin-top:4px}.acts button,.acts a{border:1px solid var(--line);background:none;border-radius:8px;padding:4px 10px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer;text-decoration:none}.acts button:hover,.acts a:hover{border-color:var(--acc)}.acts .on{background:var(--acc);border-color:var(--acc);color:#fff}
+.sk{height:150px;background:linear-gradient(100deg,var(--card) 30%,var(--line) 50%,var(--card) 70%) 0 0/300% 100%;animation:sh 1.2s infinite}@keyframes sh{to{background-position:-300% 0}}
+.empty{grid-column:1/-1;text-align:center;padding:60px;color:var(--mut)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r);background:var(--card);margin-bottom:14px}.kpi{padding:18px 22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}.kpi:last-child{border:0}.kpi span{color:var(--mut);font-size:13px}.kpi b{font-size:38px;letter-spacing:-.02em}
+.dl{font-size:13px;font-weight:700}.up{color:var(--ok)}.dn{color:var(--bad)}
+.g2,.g3{display:grid;gap:14px;margin-bottom:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.card h3{font-size:18px;margin-bottom:10px}.cv{height:260px;position:relative}
+#dash{padding-top:28px;padding-bottom:60px}.uh{display:flex;justify-content:space-between;gap:20px;align-items:start}.uh p{margin:4px 0 0;max-width:70ch}.uk{display:flex;flex-wrap:wrap;gap:22px;margin:14px 0;font-size:13px;color:var(--mut)}.uk b{color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:7px 8px;border-top:1px solid var(--line)}th{color:var(--mut);font-weight:500}.err{color:var(--bad)}code{background:var(--bg);padding:1px 6px;border-radius:6px}
+dialog{border:1px solid var(--line);border-radius:var(--r);background:var(--bg);color:var(--ink);width:min(680px,92vw);padding:18px}dialog::backdrop{background:#0008}.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}#dres{display:grid;gap:10px}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;opacity:0;transition:.25s;pointer-events:none}#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:960px){#rec{grid-template-columns:1fr}.panel{position:static}.kpis,.g2,.g3{grid-template-columns:1fr 1fr}.pill{display:none}}@media(max-width:560px){.kpis,.g2,.g3{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header><div class="wrap bar"><span class="brand">Shortlist<i>.</i></span>
+<nav><button class="tab on" data-t="rec">Matches</button><button class="tab" data-t="dash">Market pulse</button></nav>
+<div class="right"><span class="pill" id="live"></span><a class="ghost" href="/docs" target="_blank">API docs</a><button class="ib" id="theme" title="Toggle theme">◐</button></div></div></header>
+
+<main class="wrap" id="rec"><aside class="panel"><h2>Your profile</h2>
+<label>Skills <small>press Enter to add</small></label><div class="chipbox" id="skillBox"><input list="kw" placeholder="python, logo design…"></div><div class="sugg" id="sugg"></div>
+<label>Target role</label><input id="titles" placeholder="e.g. data analyst">
+<label>Pay type</label><div class="seg" id="pay"><button class="on" data-v="any">Any</button><button data-v="hourly">Hourly</button><button data-v="fixed">Fixed</button></div>
+<div id="minWrap" hidden><label>Minimum <b id="minV"></b></label><input type="range" id="minPay" min="0" max="100" value="0"></div>
+<label>Countries</label><div class="chipbox" id="cBox"><input list="cl" placeholder="add a country"></div>
+<label>Posted within</label><select id="age"><option value="">Any time</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select>
+<label>Variety <b id="divV">30%</b></label><input type="range" id="div" min="0" max="80" value="30">
+<button class="btn" id="go">Find my matches</button><button class="ghost" id="reset">Reset profile</button></aside>
+<section><div class="head"><h2 id="rt">Trending right now</h2><span class="mut" id="rs"></span></div><div id="res" class="grid"></div></section></main>
+
+<main class="wrap" id="dash" hidden><div class="head"><div><h2>Market pulse</h2><span class="mut" id="dsub"></span></div><select id="dc"><option value="">All countries</option></select></div>
+<div class="kpis" id="kpis"></div>
+<div class="g2"><div class="card"><h3>Postings over time</h3><div class="cv"><canvas id="c1"></canvas></div></div><div class="card"><h3>Median pay</h3><div class="cv"><canvas id="c2"></canvas></div></div></div>
+<div class="g3"><div class="card"><h3>Busiest countries</h3><div class="cv"><canvas id="c3"></canvas></div></div><div class="card"><h3>Heating up (title words)</h3><div class="cv"><canvas id="c4"></canvas></div></div><div class="card"><h3>Cooling down</h3><div class="cv"><canvas id="c5"></canvas></div></div></div>
+<div class="card" id="upd"></div></main>
+
+<dialog id="dlg"><div class="dh"><h3>Similar postings</h3><button class="ib" id="dx">✕</button></div><div id="dres"></div></dialog><div id="toast"></div><datalist id="kw"></datalist><datalist id="cl"></datalist>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],j=(u,o)=>fetch(u,o).then(r=>r.json());
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim(),S={skills:[],countries:[],liked:new Set(),dis:new Set(),pay:'any'},charts={};let OPT={},dashOn=false,tm;
+Chart.defaults.font.family='"DM Sans",sans-serif';Chart.defaults.color='#8c8372';
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2200)};
+function chips(box,key,after){const b=$(box),i=b.querySelector('input'),draw=()=>{b.querySelectorAll('.chip').forEach(c=>c.remove());S[key].forEach(v=>{const c=document.createElement('span');c.className='chip';c.textContent=v+' ×';c.onclick=()=>{S[key]=S[key].filter(x=>x!==v);draw();after()};b.insertBefore(c,i)})},add=v=>{v=v.trim();if(v&&!S[key].includes(v)){S[key].push(v);draw();after()}i.value=''};
+ i.onkeydown=e=>{if(e.key==='Enter'||e.key===','){e.preventDefault();add(i.value)}else if(e.key==='Backspace'&&!i.value&&S[key].length){S[key].pop();draw();after()}};i.onchange=()=>add(i.value);draw();return add}
+const run=(d=300)=>{clearTimeout(tm);tm=setTimeout(find,d)};
+const card=(r,i=0)=>`<article class="card" style="--p:${r.match};animation-delay:${i*35}ms"><div class="ring"><b>${r.match}</b></div><div><h3>${esc(r.title)}</h3><p class="meta">${esc(r.country||'Worldwide')} · posted ${r.posted}</p><div class="tags"><span class="pay ${r.basis||''}">${esc(r.pay)}</span>${r.why.map(w=>`<span class="tag">${esc(w)}</span>`).join('')}</div></div>
+<div class="acts"><button data-a="up" data-id="${r.id}" class="${S.liked.has(r.id)?'on':''}">👍 More like this</button><button data-a="no" data-id="${r.id}" class="${S.dis.has(r.id)?'on':''}">👎</button><button data-a="sim" data-id="${r.id}">Similar</button>${/^https?:/.test(r.link||'')?`<a href="${esc(r.link)}" target="_blank" rel="noopener">Open ↗</a>`:''}</div></article>`;
+async function find(){const sk=$('#res');sk.innerHTML=Array(6).fill('<div class="card sk"></div>').join('');
+ const body={skills:S.skills,titles:$('#titles').value,countries:S.countries,pay_type:S.pay,min_pay:+$('#minPay').value,max_age:$('#age').value||null,diversity:$('#div').value/100,n:12,liked:[...S.liked],disliked:[...S.dis]};
+ const r=await j('/api/recommend',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ $('#rt').textContent=(S.skills.length||body.titles||S.liked.size)?'Your best matches':'Trending right now';$('#rs').textContent=r.error||`${r.count} roles · ${S.liked.size} liked · ${S.dis.size} passed`;
+ sk.innerHTML=r.results?.length?r.results.map(card).join(''):`<div class="empty">${esc(r.error||'No matches — loosen a filter or add more skills.')}</div>`}
+$('#res').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const id=b.dataset.id,a=b.dataset.a;
+ if(a==='sim'){const r=await j('/api/similar/'+id);$('#dres').innerHTML=r.results.map(card).join('');$('#dlg').showModal()}
+ else{const [on,off]=a==='up'?[S.liked,S.dis]:[S.dis,S.liked];on.has(id)?on.delete(id):(on.add(id),off.delete(id));toast(a==='up'?'Tuning matches to your taste…':'Got it — showing fewer like this');run(250)}};
+$('#dres').onclick=e=>$('#res').onclick(e);$('#dx').onclick=()=>$('#dlg').close();
+$('#pay').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.pay=b.dataset.v;$$('#pay button').forEach(x=>x.classList.toggle('on',x===b));const m=$('#minPay');$('#minWrap').hidden=S.pay==='any';m.max=S.pay==='fixed'?5000:OPT.hourly_range?.[1]||100;m.step=S.pay==='fixed'?50:1;m.value=0;m.oninput();run()};
+$('#minPay').oninput=function(){$('#minV').textContent='$'+(+this.value).toLocaleString()+(S.pay==='hourly'?'/hr':'')};$('#div').oninput=function(){$('#divV').textContent=this.value+'%'};
+['#minPay','#div','#age'].forEach(s=>$(s).addEventListener('change',()=>run()));$('#titles').addEventListener('input',()=>run(600));$('#go').onclick=()=>find();
+$('#reset').onclick=()=>{S.skills=[];S.countries=[];S.liked.clear();S.dis.clear();$('#titles').value='';$('#age').value='';$$('#rec .chip').forEach(c=>c.remove());$('#pay button').click();find()};
+$('#theme').onclick=()=>{const d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark';if(dashOn)dash()};
+$$('.tab').forEach(t=>t.onclick=()=>{$$('.tab').forEach(x=>x.classList.toggle('on',x===t));$('#rec').hidden=t.dataset.t!=='rec';$('#dash').hidden=t.dataset.t!=='dash';if(t.dataset.t==='dash'){dashOn=true;dash();upd()}});
+/* ---------- dashboard ---------- */
+const num=(v,p='',s='')=>v==null?'—':p+Number(v).toLocaleString(undefined,{maximumFractionDigits:1})+s,delta=c=>c==null?'':`<span class="dl ${c>=0?'up':'dn'}">${c>=0?'▲':'▼'} ${Math.abs(c).toFixed(1)}%</span>`;
+function draw(id,type,labels,datasets,{scales={},legend=false,opt={},tip}={}){charts[id]?.destroy();charts[id]=new Chart($('#'+id),{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:legend,position:'bottom'},tooltip:tip?{callbacks:{label:tip}}:{}},scales:{x:{grid:{display:false}},y:{grid:{color:css('--line')}},...scales},...opt}})}
+async function dash(){const c=$('#dc').value,d=await j('/api/dashboard'+(c?'?country='+encodeURIComponent(c):''));if(d.error){$('#kpis').innerHTML=`<div class="empty">${esc(d.error)}</div>`;return}
+ const m=d.meta,k=d.kpis,x=d.series.x,n=x.length;$('#dsub').textContent=`${m.current} vs ${m.previous||'—'} · by ${m.granularity} · ${m.rows.toLocaleString()} postings${m.partial_last?' · latest '+m.granularity+' in progress (dashed)':''}`;
+ $('#kpis').innerHTML=[['Postings',num(k.postings.value),k.postings.change_pct],['Median hourly rate',num(k.median_hourly.value,'$'),k.median_hourly.change_pct],['Hourly share',num(k.hourly_share.value,'','%'),k.hourly_share.change_pct],['Active countries',num(k.countries.value),k.countries.change_pct]].map(([l,v,ch])=>`<div class="kpi"><span>${l}</span><b class="serif">${v}</b>${delta(ch)}</div>`).join('');
+ const seg=m.partial_last?{borderDash:q=>q.p1DataIndex===n-1?[6,5]:undefined}:{};
+ draw('c1','line',x,[{label:'Postings',data:d.series.postings,borderColor:css('--acc'),backgroundColor:css('--acc')+'26',fill:true,tension:.3,segment:seg,pointRadius:2}]);
+ draw('c2','line',x,[{label:'Hourly median ($/hr)',data:d.series.median_hourly,borderColor:css('--teal'),tension:.3,pointRadius:2,segment:seg},{label:'Fixed-price median ($)',data:d.series.median_fixed,borderColor:css('--gold'),tension:.3,pointRadius:2,yAxisID:'y1',segment:seg}],{legend:true,scales:{y1:{position:'right',grid:{display:false}}}});
+ const t=d.top_countries;draw('c3','bar',t.map(r=>r.country),[{data:t.map(r=>r.postings),backgroundColor:css('--teal'),borderRadius:6}],{opt:{indexAxis:'y'},tip:q=>` ${q.raw.toLocaleString()} postings`+(t[q.dataIndex].change_pct==null?'':` (${t[q.dataIndex].change_pct>0?'+':''}${t[q.dataIndex].change_pct}% vs prev)`)});
+ const kw=(id,rows,col,f)=>draw(id,'bar',rows.map(r=>r.term),[{data:rows.map(f),backgroundColor:css(col),borderRadius:6}],{opt:{indexAxis:'y'},tip:q=>` ${q.raw.toFixed(0)}% · ${rows[q.dataIndex].now} vs ${rows[q.dataIndex].prev} postings`});
+ kw('c4',d.rising,'--ok',r=>(r.lift-1)*100);kw('c5',d.falling,'--bad',r=>(1-r.lift)*100)}
+async function upd(){const s=await j('/api/update/status');$('#live').innerHTML=`<i class="dot ${s.running?'busy':''}"></i>${s.running?'Updating…':'Data to '+(s.latest||'—')+(s.auto?' · auto':'')}`;
+ $('#upd').innerHTML=`<div class="uh"><div><h3>Update centre</h3><p class="mut">${s.auto?`<b>Automatic:</b> checks every ${Math.round(s.check_every_secs/60)} min and rebuilds when new files land in <code>data/incoming/</code> or a new month begins.`:'Automatic updates are off (AUTO_REFRESH=0).'} <b>Manual:</b> refresh any time.</p></div><button class="btn sm" id="rf" ${s.running?'disabled':''}>${s.running?'Refreshing…':'Refresh now'}</button></div>
+ <div class="uk"><span>Last built <b>${(s.built_at||'').replace('T',' ')}</b></span><span>Postings <b>${(s.rows||0).toLocaleString()}</b></span><span>Files <b>${s.files}</b></span>${s.auto&&s.next_check_in_secs!=null?`<span>Next check <b>${Math.ceil(s.next_check_in_secs/60)} min</b></span>`:''}</div>${s.last_error?`<p class="err">Last error: ${esc(s.last_error)}</p>`:''}
+ <table><tr><th>When</th><th>Trigger</th><th>Postings</th><th>New</th><th>Took</th></tr>${s.history.map(h=>`<tr><td>${h.at.replace('T',' ')}</td><td>${esc(h.reason)}</td><td>${h.rows.toLocaleString()}</td><td>${h.new_rows==null?'—':'+'+h.new_rows}</td><td>${h.secs}s</td></tr>`).join('')}</table>`;
+ $('#rf').onclick=async()=>{await j('/api/update/refresh',{method:'POST'});let q;do{await new Promise(r=>setTimeout(r,1500));q=await upd()}while(q.running);toast('Data refreshed');boot()};return s}
+$('#dc').onchange=dash;
+async function boot(){OPT=await j('/api/options');$('#kw').innerHTML=OPT.keywords.map(v=>`<option value="${esc(v)}">`).join('');$('#cl').innerHTML=OPT.countries.map(v=>`<option value="${esc(v)}">`).join('');
+ $('#dc').innerHTML='<option value="">All countries</option>'+OPT.countries.slice(0,40).map(v=>`<option>${esc(v)}</option>`).join('');$('#sugg').innerHTML=OPT.keywords.slice(0,8).map(v=>`<button>${esc(v)}</button>`).join('');upd();find();if(dashOn)dash()}
+const addSkill=chips('#skillBox','skills',()=>run());chips('#cBox','countries',()=>run());$('#sugg').onclick=e=>{if(e.target.tagName==='BUTTON')addSkill(e.target.textContent)};
+$('#minPay').oninput();setInterval(()=>j('/api/update/status').then(s=>$('#live').innerHTML=`<i class="dot ${s.running?'busy':''}"></i>${s.running?'Updating…':'Data to '+(s.latest||'—')+(s.auto?' · auto':'')}`),30000);boot();
+</script></body></html>
